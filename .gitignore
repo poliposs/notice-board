@@ -1,3 +1,15 @@
+#Specific requirements for Node.js projects
+node_modules/
+.env
+*.db
+*.sqlite
+*.sqlite3
+logs/
+*.log
+.DS_Store
+test-results/
+playwright-report/
+
 # Logs
 logs
 *.log

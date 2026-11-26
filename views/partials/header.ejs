@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> | Community Notice Board</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="/" class="logo">Community Notice Board</a>
+
+  <form action="/search" method="GET" class="search">
+    <input type="text" name="q" placeholder="Search notices...">
+    <button type="submit">Search</button>
+  </form>
+
+  <nav>
+    <a href="/">Home</a>
+    <% if (user) { %>
+      <a href="/notices/new">Post a notice</a>
+      <a href="/profile">Profile</a>
+      <a href="/logout">Log out (<%= user.username %>)</a>
+    <% } else { %>
+      <a href="/login">Log in</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </nav>
+</header>
+<main class="container">

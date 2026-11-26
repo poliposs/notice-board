@@ -16,12 +16,13 @@ db.serialize(() => {
     db.run(`PRAGMA foreign_keys = ON;`);
 
     db.run(`CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
-        email TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );`);
+      id          INTEGER PRIMARY KEY AUTOINCREMENT,
+      username    TEXT NOT NULL UNIQUE,
+      email       TEXT NOT NULL UNIQUE,
+      password    TEXT NOT NULL,
+      role        TEXT NOT NULL DEFAULT 'user' CHECK (role IN ('user', 'admin')),
+      created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
 
     db.run(`CREATE TABLE IF NOT EXISTS notices (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,6 +43,6 @@ db.serialize(() => {
     FOREIGN KEY (notice_id) REFERENCES notices(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id)   REFERENCES users(id)   ON DELETE CASCADE
     )`);
+});
 
-    module.exports = db;
-});    
+module.exports = db;

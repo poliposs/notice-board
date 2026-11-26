@@ -1,0 +1,18 @@
+<%- include('partials/header') %>
+
+<h1>Latest notices</h1>
+
+<% if (notices.length === 0) { %>
+  <p>No notices yet.</p>
+<% } else { %>
+  <% notices.forEach(n => { %>
+    <article class="notice">
+      <span class="category"><%= n.category %></span>
+      <h2><a href="/notices/<%= n.id %>"><%= n.title %></a></h2>
+      <p><%= n.description %></p>
+      <p class="meta">Posted by <%= n.username %> on <%= n.created_at %></p>
+    </article>
+  <% }) %>
+<% } %>
+
+<%- include('partials/footer') %>

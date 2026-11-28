@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+<h1>Post a notice</h1>
+
+<form action="/notices" method="POST" class="card">
+  <label for="title">Title</label>
+  <input type="text" id="title" name="title" required>
+
+  <label for="category">Category</label>
+  <select id="category" name="category">
+    <option>General</option>
+    <option>Lost & Found</option>
+    <option>For Sale</option>
+    <option>Events</option>
+    <option>Services</option>
+  </select>
+
+  <label for="description">Description</label>
+  <textarea id="description" name="description" rows="5" required></textarea>
+
+  <p><button type="submit">Post notice</button></p>
+</form>
+
+<%- include('partials/footer') %>

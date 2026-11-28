@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<article class="notice">
+  <span class="category"><%= notice.category %></span>
+  <h1><%= notice.title %></h1>
+  <%# INSECURE: raw output -> stored XSS %>
+  <p><%- notice.description %></p>
+  <p class="meta">Posted by <%= notice.username %> on <%= notice.created_at %></p>
+</article>
+
+<h2>Comments</h2>
+<% if (comments.length === 0) { %>
+  <p>No comments yet.</p>
+<% } %>
+<% comments.forEach(c => { %>
+  <div class="notice comment">
+    <%# INSECURE: raw output -> stored XSS %>
+    <p><%- c.body %></p>
+    <p class="meta"><%= c.username %> · <%= c.created_at %></p>
+  </div>
+<% }) %>
+
+<% if (user) { %>
+  <form action="/notices/<%= notice.id %>/comments" method="POST" class="card">
+    <label for="body">Add a comment</label>
+    <textarea id="body" name="body" rows="3" required></textarea>
+    <p><button type="submit">Post comment</button></p>
+  </form>
+<% } else { %>
+  <p><a href="/login">Log in</a> to comment.</p>
+<% } %>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,12 @@
+<%- include('partials/header') %>
+
+<h1>My profile</h1>
+<div class="notice">
+  <p><strong>Username:</strong> <%= profile.username %></p>
+  <p><strong>Email:</strong> <%= profile.email %></p>
+  <%# INSECURE: password stored and displayed in plaintext %>
+  <p><strong>Password:</strong> <%= profile.password %></p>
+  <p><strong>Member since:</strong> <%= profile.created_at %></p>
+</div>
+
+<%- include('partials/footer') %>

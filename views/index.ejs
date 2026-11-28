@@ -1,5 +1,7 @@
 <%- include('partials/header') %>
 
+<div id="banner"></div>
+
 <h1>Latest notices</h1>
 
 <% if (notices.length === 0) { %>
@@ -9,10 +11,12 @@
     <article class="notice">
       <span class="category"><%= n.category %></span>
       <h2><a href="/notices/<%= n.id %>"><%= n.title %></a></h2>
-      <p><%= n.description %></p>
+      <%# INSECURE: raw output of user content -> stored XSS %>
+      <p><%- n.description %></p>
       <p class="meta">Posted by <%= n.username %> on <%= n.created_at %></p>
     </article>
   <% }) %>
 <% } %>
 
+<script src="/js/welcome.js"></script>
 <%- include('partials/footer') %>

@@ -25,3 +25,8 @@ form.card input, form.card textarea, form.card select { width: 100%; padding: .5
 button { padding: .5rem 1rem; cursor: pointer; }
 
 .site-footer { text-align: center; padding: 2rem; color: #666; }
+
+#banner { display: none; background: #d4edda; padding: .75rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+.error { background: #f8d7da; padding: .75rem 1rem; border-radius: 6px; }
+.stack { background: #222; color: #f88; padding: 1rem; overflow-x: auto; font-size: .8rem; white-space: pre-wrap; }
+.comment { padding: .75rem 1rem; }

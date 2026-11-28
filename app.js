@@ -1,29 +1,33 @@
-// app.js - Community Notice Board (base skeleton)
+// app.js - Community Notice Board (INSECURE branch)
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const db = require('./db/database');
 
+const authRoutes    = require('./routes/auth');
+const noticeRoutes  = require('./routes/notices');
+const searchRoutes  = require('./routes/search');
+const profileRoutes = require('./routes/profile');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// View engine (EJS)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Body parsing + static files
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Sessions (cookie settings are hardened later on the secure branch)
+// INSECURE: hardcoded secret, cookie readable by JavaScript (httpOnly: false) so XSS can steal it,
+// no secure flag, no sameSite
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'dev-secret-change-me',
+  secret: 'dev-secret-change-me',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: { httpOnly: false }
 }));
 
-// Make the logged-in user available to every view
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
@@ -44,15 +48,24 @@ app.get('/', (req, res, next) => {
   });
 });
 
+app.use(authRoutes);
+app.use(noticeRoutes);
+app.use(searchRoutes);
+app.use(profileRoutes);
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).render('error', { title: 'Not found', message: 'Page not found.' });
 });
 
-// Error handler - generic message for the user, details only in the server console
+// INSECURE: full error message, SQL query and stack trace sent to the browser
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).render('error', { title: 'Error', message: 'Something went wrong.' });
+  res.status(500).render('error', {
+    title: 'Error',
+    message: err.message,
+    stack: (err.query ? 'Query: ' + err.query + '\n\n' : '') + err.stack
+  });
 });
 
 app.listen(PORT, () => {

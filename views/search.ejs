@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+
+<%# INSECURE: search term echoed back unescaped -> reflected XSS %>
+<h1>You searched for: <%- q %></h1>
+<% if (locals.error) { %>
+  <%# INSECURE: verbose database error, SQL query and stack trace shown to the user %>
+  <h2>Database error</h2>
+  <p><%= error %></p>
+  <pre class="stack"><%= stack %></pre>
+<% } else { %>
+  <p><%= notices.length %> result(s)</p>
+<% } %>
+
+<% notices.forEach(n => { %>
+  <article class="notice">
+    <span class="category"><%= n.category %></span>
+    <h2><a href="/notices/<%= n.id %>"><%= n.title %></a></h2>
+    <p><%- n.description %></p>
+    <p class="meta">Posted by <%= n.username %> on <%= n.created_at %></p>
+  </article>
+<% }) %>
+
+<%- include('partials/footer') %>
